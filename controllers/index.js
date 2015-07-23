@@ -1,6 +1,6 @@
 var indexController = {
 	index: function(req, res) {
-		res.render('seville');
+		res.render('index');
 	},
 	cn: function(req, res){
 		res.render('canary');

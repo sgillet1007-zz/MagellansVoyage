@@ -2,19 +2,19 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var indexController = require('./controllers/index.js');
 
-var voyage = ['Seville','CanaryIslands','CapeVerde','StraitsOfMagellan','Guam','Phillipines']
+var voyage = ['','CanaryIslands','CapeVerde','StraitsOfMagellan','Guam','Phillipines']
 var cityIndex = 0;
 
 
-var next = function(){
-	var nextCity = cityIndex;
-	return voyage[nextCity];
-}
+// var next = function(){
+// 	var nextCity = cityIndex;
+// 	return voyage[nextCity];
+// }
 
 var app = express();
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
-// app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.get('/', indexController.index);
@@ -26,18 +26,20 @@ app.get('/Phillipines', indexController.ph);
 
 app.post('/formsubmit', function(req, res){
 	
-	if (cityIndex <= 5){
+	if (cityIndex < 5){
 		++cityIndex;
+		res.redirect('/' + voyage[cityIndex]);
 	}
 	else {
 		cityIndex = 0;
+		res.redirect('/'+ voyage[cityIndex]);
 	}
-	if (cityIndex === 0){
-		res.redirect('/');
-	}
-	else{
-		res.redirect('/' + voyage[cityIndex]);
-	}
+	// if (cityIndex === 0){
+	// 	res.redirect('/');
+	// }
+	// else{
+	// 	res.redirect('/' + voyage[cityIndex]);
+	// }
 })
 
 var server = app.listen(5185, function() {
